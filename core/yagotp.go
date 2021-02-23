@@ -23,9 +23,8 @@ func toBigEndianArray(value int64) []byte {
 func fromBigEndianArray(startIndex int, array []byte) int64 {
 	var value int64 = 0
 
-	for i := startIndex; i <= startIndex + 7; i++ {
-		value = value << 8 | int64(array[i])
-		//println(value)
+	for i := startIndex; i <= startIndex+7; i++ {
+		value = value<<8 | int64(array[i])
 	}
 	return value
 }
@@ -55,8 +54,8 @@ func ComputeOtp(pin Pin, secret Secret) string {
 	hash := hmac.New(sha256.New, keyHash[:])
 	hash.Write(toBigEndianArray(curPeriod))
 	periodHash := hash.Sum(nil)
-	periodHashSlice := fromBigEndianArray(int(periodHash[len(periodHash) - 1] & 15), periodHash) & int64(^uint64(0) >> 1)
+	periodHashSlice := fromBigEndianArray(int(periodHash[len(periodHash)-1]&15), periodHash) & int64(^uint64(0)>>1)
 
 	limitValue := int64(math.Pow(26, otpLength))
-	return toBase26(periodHashSlice % limitValue, otpLength)
+	return toBase26(periodHashSlice%limitValue, otpLength)
 }
