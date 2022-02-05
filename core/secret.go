@@ -12,7 +12,7 @@ func (secret *Secret) CreateSecret(secretString string) bool {
 		println(err.Error())
 		return false
 	}
-	secret.data = data[len(data) - 26 : 16]
+	secret.data = data[0 : 16]
 	return true
 }
 
